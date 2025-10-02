@@ -29,10 +29,10 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
 
 ### Repository Structure
 
-- migrations
-    - content 
-    - init
-- project-plan
+- [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations)
+    - [content](https://github.com/marmag0/DB-2025-26/tree/main/migrations/content) 
+    - [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init)
+- [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
 
 ### Authors
 - Mikołaj M `->` [LinkedIn](https://www.linkedin.com/in/mikolaj-mazur/)
