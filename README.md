@@ -34,7 +34,7 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
     - [content](https://github.com/marmag0/DB-2025-26/tree/main/migrations/content) 
     - [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
-- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/project-plan/example-inserts)
+- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/example-inserts) 
 
 ### Authors 👨‍🎓
 - Mikołaj M `->` [LinkedIn](https://www.linkedin.com/in/mikolaj-mazur/)
