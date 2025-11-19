@@ -23,8 +23,9 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
 **Dbmate  requirements:** 
 - file naming convention: `version_description` (e.g. `1_tableCreation`)
 - migration file rules:
-    - each file must contain migration blocks (`-- migrate:up` and `-- migrate:down`)
-    - one file = one transaction block
+    - each file must contain migration blocks: `-- migrate:up` and `-- migrate:down`
+    - one file = one transaction block (by default)
+    - supports transaction specification options: `transaction:false` and `transaction:true`
 - more about Dbmate `->` [github](https://github.com/amacneil/dbmate)
 
 ### Repository Structure 📂
@@ -33,6 +34,7 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
     - [content](https://github.com/marmag0/DB-2025-26/tree/main/migrations/content) 
     - [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
+- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/project-plan/example-inserts)
 
 ### Authors 👨‍🎓
 - Mikołaj M `->` [LinkedIn](https://www.linkedin.com/in/mikolaj-mazur/)
