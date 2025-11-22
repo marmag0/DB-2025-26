@@ -4,6 +4,7 @@
 
 The project concept is presented in a PDF presentation, available [here](https://github.com/marmag0/DB-2025-26/blob/main/project-plan/relational-database-for-e-commerce.pdf).
 
+
 ### To Do List
 
 - Mikołaj M
