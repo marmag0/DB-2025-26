@@ -9,10 +9,12 @@ Its goal is to design and implement a **relational database for a general-purpos
 
 The database will be developed with a strong focus on **data integrity**, **security**, and **scalability**, while following the **highest practical level of normalization standards** to ensure both efficiency and usability.
 
+
 ### Innovative Approach 💡
 
 To make this project stand out, it leverages [TimescaleDB](https://www.tigerdata.com/blog/postgresql-timescaledb-1000x-faster-queries-90-data-compression-and-much-more) — an open-source time-series database that extends the core functionality of `PostgreSQL`.
 By integrating TimescaleDB, the system ensures **high scalability**, **efficient handling of time-series data**, and **real-time statistical performance** for fast and reliable data processing.
+
 
 ### Migration Tool - Dbmate ♻️
 
@@ -27,6 +29,7 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
     - supports transaction specification options: `transaction:false` and `transaction:true`
 - more about Dbmate `->` [GitHub](https://github.com/amacneil/dbmate)
 
+
 ### Repository Structure 📂
 
 Here's the repository structure — feel free to explore!
@@ -37,6 +40,7 @@ Each directory contains a separate `README.md` file, which explains in detail th
     - [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
 - [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/example-inserts) 
+
 
 ### Authors 👨‍🎓
 - Mikołaj M `->` [LinkedIn](https://www.linkedin.com/in/mikolaj-mazur/)
