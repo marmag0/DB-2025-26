@@ -13,5 +13,5 @@ The project concept is presented in a PDF presentation, available [here](https:/
     - [ ] update README in [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations) directory, explain Dbmate functionalities and provide understandable example.
 - Mateusz K
     - [x] prepare the database schema and create a PDF presentation outlining the project plans and goals
-    - ...
+    - [ ] ...
 
