@@ -1,7 +1,6 @@
 # DB-2025-26
 
 ## Welcome to our project!
----
 
 ### Topic and Purpose 📚
 
@@ -26,7 +25,7 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
     - each file must contain migration blocks: `-- migrate:up` and `-- migrate:down`
     - one file = one transaction block (by default)
     - supports transaction specification options: `transaction:false` and `transaction:true`
-- more about Dbmate `->` [github](https://github.com/amacneil/dbmate)
+- more about Dbmate `->` [GitHub](https://github.com/amacneil/dbmate)
 
 ### Repository Structure 📂
 
@@ -41,6 +40,4 @@ Each directory contains a separate `README.md` file, which explains in detail th
 
 ### Authors 👨‍🎓
 - Mikołaj M `->` [LinkedIn](https://www.linkedin.com/in/mikolaj-mazur/)
-    - ...
 - Mateusz K `->` [LinkedIn](https://www.linkedin.com/in/mateusz-klikuszewski/)
-    - ...
