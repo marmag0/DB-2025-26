@@ -13,7 +13,7 @@ It was designed in free online tool called [dbdiagram.io](https://dbdiagram.io) 
 - Mikołaj M
     - [x] prepare whole repository schema and initial documentation.
     - [x] write [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init) directory code to create users and databases.
-    - [x] prepare updated db shema
+    - [x] prepare updated db schema
     - [x] ...
 - Mateusz K
     - [x] prepare the database schema and the PDF presentation outlining the project plans and goals.
