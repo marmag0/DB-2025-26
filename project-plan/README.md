@@ -3,7 +3,8 @@
 ### Database Schema
 
 The project concept is presented in a PDF presentation, available [here](https://github.com/marmag0/DB-2025-26/blob/main/project-plan/relational-database-for-e-commerce.pdf).
-Uptodate ER Diagram is stored in seperate PDF file.
+
+Up-to-date ER Diagram is stored in seperate PDF file.
 
 
 ### To Do List
