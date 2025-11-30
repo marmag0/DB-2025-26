@@ -32,7 +32,7 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
 
 ### Repository Structure 📂
 
-Here's the repository structure — feel free to explore!
+Here's the repository structure - feel free to explore!
 Each directory contains a separate `README.md` file, which explains in detail the purpose of the directory and the functionalities available inside it.
 
 - [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations)
