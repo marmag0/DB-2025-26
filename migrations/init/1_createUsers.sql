@@ -1,5 +1,6 @@
 -- migrate:up transaction:false
 
+
 CREATE ROLE "Role.Owner" WITH
 	LOGIN
 	SUPERUSER
@@ -20,6 +21,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "Role.Developer";
 
 
 -- migrate:down transaction:false
+
 
 DROP ROLE IF EXISTS "Role.Developer";
 DROP ROLE IF EXISTS "Role.Owner";

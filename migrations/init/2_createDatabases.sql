@@ -1,5 +1,6 @@
 -- migrate:up transaction:false
 
+
 SET TIMEZONE='UTC';
 
 CREATE DATABASE "Ecommerce.Prod" WITH
@@ -14,6 +15,7 @@ CREATE DATABASE "Ecommerce.Dev" WITH
 
 
 -- migrate:down transaction:false
+
 
 DROP DATABASE IF EXISTS "Ecommerce.Dev";
 DROP DATABASE IF EXISTS "Ecommerce.Prod";

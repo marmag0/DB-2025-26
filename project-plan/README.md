@@ -14,7 +14,8 @@ It was designed in free online tool called [dbdiagram.io](https://dbdiagram.io) 
     - [x] prepare whole repository schema and initial documentation.
     - [x] write [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init) directory code to create users and databases.
     - [x] prepare updated db schema
-    - [x] ...
+    - [x] finish whole documentation
+    - [x] prepare a migration script compatible with Dbmate for table creation based on the current schema
 - Mateusz K
     - [x] prepare the database schema and the PDF presentation outlining the project plans and goals.
     - [x] ...
