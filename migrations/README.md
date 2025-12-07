@@ -27,8 +27,7 @@ n_action.sql
   - each migration script **must** contain `-- migrate:up` and `-- migrate:down` blocks
   - all files must be UTF-8 encoded
 
-**example:**
-**Filename:** `1_createTableUsers.sql`
+**example:** filename: `1_createTableUsers.sql`
 
 ```SQL
 -- migrate:up
@@ -42,6 +41,7 @@ create table "users" (
 drop table users;
 ```
 
+
 - **Dbmate in use**
   - install Dbmate according to its [repository instructions](https://github.com/amacneil/dbmate?tab=readme-ov-file#installation).
   - prepare a connection string (can also be stored as an environment variable):
@@ -54,6 +54,7 @@ drop table users;
 ```
 dbmate -d . -u "postgres://postgres@localhost:5432/Panel.EmotoAgh.Test?sslmode=disable&password=root" up
 ```
+
 
 - **most common commands**
   - `up` - runs all pending migrations and brings the database schema to the newest version
