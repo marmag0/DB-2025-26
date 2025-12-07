@@ -22,4 +22,41 @@ n_action.sql
 
 ### Dbmate - How To
 
-There will be detailed dsc soon... I guess...
+- **project structure requirements**
+  - file naming convention in [/migrations/content](https://github.com/marmag0/DB-2025-26/tree/main/migrations/content) should follow the rules described in this README
+  - each migration script **must** contain `-- migrate:up` and `-- migrate:down` blocks
+  - all files must be UTF-8 encoded
+
+**example:**
+**Filename:** `1_createTableUsers.sql`
+
+```SQL
+-- migrate:up
+create table "users" (
+  id serial,
+  name varchar(255),
+  email varchar(255) not null
+);
+
+-- migrate:down
+drop table users;
+```
+
+- **Dbmate in use**
+  - install Dbmate according to its [repository instructions](https://github.com/amacneil/dbmate?tab=readme-ov-file#installation).
+  - prepare a connection string (can also be stored as an environment variable):
+    - `"postgres://{user}@{host}:{port}/{database}?sslmode=disable&password={password}"` (1st version)
+    - `postgres://user:password@host:port/database?sslmode=disable` (2nd version)
+  - run a migration (or another Dbmate command):
+    - `dbmate -d {migration_directory_path} -u {connection_string} {command}`
+   
+**example:**
+```
+dbmate -d . -u "postgres://postgres@localhost:5432/Panel.EmotoAgh.Test?sslmode=disable&password=root" up
+```
+
+- **most common commands**
+  - `up` - runs all pending migrations and brings the database schema to the newest version
+  - `down` - rolls back the **most recent** migration (useful for undoing the last change)
+  - `status` - displays the list of all migrations and shows which ones have been applied
+  - `verify` - checks the integrity of migrations to ensure they are consistent and valid
