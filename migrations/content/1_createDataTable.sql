@@ -19,6 +19,7 @@ CREATE TABLE public."Customers"(
 CREATE TABLE public."Addresses"(
     "address_id" UUID PRIMARY KEY,
     "customer_id" UUID NOT NULL,
+	"city" VARCHAR(100) NOT NULL,
     "street" VARCHAR(100) NOT NULL,
     "state_province" VARCHAR(60),
     "postal_code" VARCHAR(20) NOT NULL,
@@ -53,6 +54,7 @@ CREATE TABLE public."Products"(
     "on_sale" BOOLEAN DEFAULT TRUE, -- extra column to specify if product is available to purchase
     "image_url" VARCHAR(255),
     "weight" DECIMAL(5,3),
+	"is_active" BOOLEAN DEFAULT TRUE,
     "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMP,
 	
@@ -67,6 +69,7 @@ CREATE TABLE public."Products"(
 -- creating discounts table
 CREATE TABLE public."Discounts"(
     "discount_id" UUID PRIMARY KEY,
+	"code" VARCHAR(50) UNIQUE,
     "type" VARCHAR(20) NOT NULL,
     "applies_to_product" UUID,
     "applies_to_category" UUID,
@@ -75,6 +78,7 @@ CREATE TABLE public."Discounts"(
     "start_date" TIMESTAMP NOT NULL,
     "end_date" TIMESTAMP NOT NULL,
     "minimum_order_amount" DECIMAL(10,2) NOT NULL DEFAULT 0.0,
+	"usage_limit" INT,
 
     -- discount value in percentage should be between 0-100, and there should be a specification of what it applies to
 	CONSTRAINT "discounts_percentage_check" CHECK ("percentage_value" >= 0 AND "percentage_value" <= 100),
@@ -124,6 +128,7 @@ CREATE TABLE public."OrderedItems"(
     "order_id" UUID NOT NULL,
     "product_id" UUID NOT NULL,
     "quantity" INT NOT NULL,
+	"unit_price" DECIMAL(10,2) NOT NULL, 
 
     -- every ordered item must have positive quantity
 	CONSTRAINT "quantity_value_check" CHECK ("quantity" > 0),
@@ -209,7 +214,7 @@ CREATE TABLE public."Shipments"(
 -- creating reviews table
 CREATE TABLE public."Reviews"(
     "review_id" UUID PRIMARY KEY,
-    "customer_id" UUID NOT NULL,
+    "customer_id" UUID,
     "product_id" UUID NOT NULL,
     "rating" INT NOT NULL,
     "comment" TEXT,
