@@ -15,6 +15,7 @@ Table Public.Customers {
 Table Public.Addresses {
   address_id uuid [primary key]
   customer_id uuid [not null, ref: > Public.Customers.customer_id]
+  city varchar(100) [not null]
   street varchar(100) [not null]
   state_province varchar(60)
   postal_code varchar(20) [not null]
@@ -37,7 +38,8 @@ Table Public.Products {
   stock_quantity int [not null]
   sku varchar(40) [not null, unique]
   image_url varchar(255)
-  weight decimal(5,3) 
+  weight decimal(5,3)
+  is_active boolean [default: true]
   created_at timestamp [default: `now()`]
   updated_at timestamp
   category_id uuid [ref: > Public.Categories.category_id]
@@ -45,6 +47,7 @@ Table Public.Products {
 
 Table Public.Discounts {
   discount_id uuid [primary key]
+  code varchar(50) [unique]
   type varchar(20) [not null]
   applies_to_product uuid [ref: > Public.Products.product_id]
   applies_to_category uuid [ref: > Public.Categories.category_id] 
@@ -52,6 +55,7 @@ Table Public.Discounts {
   percentage_value int [not null]
   start_date timestamp [not null]
   end_date timestamp [not null]
+  usage_limit int
   minimum_order_amount decimal(10,2) [not null]
 }
 
@@ -70,6 +74,7 @@ Table Public.OrderItems {
   order_id uuid [not null, ref: > Public.Orders.order_id]
   product_id uuid [not null, ref: > Public.Products.product_id]
   quantity int [not null]
+  unit_price decimal(10,2) [not null]
 }
 
 Table Public.PaymentMethods {
