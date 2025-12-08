@@ -177,6 +177,9 @@ CREATE TABLE public."Payments"(
         REFERENCES public."PaymentMethods" ("payment_method_id")
         ON UPDATE CASCADE
         ON DELETE RESTRICT
+) WITH (
+    timescaledb.hypertable,
+    timescaledb.partition_column='payment_date'
 );
 
 -- creating shipment carriers table
@@ -209,6 +212,9 @@ CREATE TABLE public."Shipments"(
         REFERENCES public."ShipmentCarriers" ("shipping_carrier_id")
         ON UPDATE CASCADE
         ON DELETE RESTRICT
+) WITH (
+    timescaledb.hypertable,
+    timescaledb.partition_column='shipment_date'
 );
 
 -- creating reviews table
@@ -234,6 +240,9 @@ CREATE TABLE public."Reviews"(
         REFERENCES public."Products" ("product_id")
         ON UPDATE CASCADE
         ON DELETE CASCADE
+) WITH (
+    timescaledb.hypertable,
+    timescaledb.partition_column='review_date'
 );
 
 
