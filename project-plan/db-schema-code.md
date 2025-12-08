@@ -37,6 +37,7 @@ Table Public.Products {
   price decimal(10,2) [not null]
   stock_quantity int [not null]
   sku varchar(40) [not null, unique]
+  on_sale boolean [default: true]
   image_url varchar(255)
   weight decimal(5,3)
   is_active boolean [default: true]
@@ -80,6 +81,8 @@ Table Public.OrderItems {
 Table Public.PaymentMethods {
   payment_method_id uuid [primary key]
   name varchar(60) [not null, unique]
+  carrier varchar(60) [not null]
+  in_use boolean [default: true]
 }
 
 Table Public.Payments {
@@ -94,6 +97,7 @@ Table Public.Payments {
 Table Public.ShipmentCarriers {
   shipping_carrier_id uuid [primary key]
   name varchar(60) [not null, unique]
+  in_use boolean [default: true]
 }
 
 Table Public.Shipments {

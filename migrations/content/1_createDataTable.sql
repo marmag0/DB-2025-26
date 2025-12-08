@@ -51,7 +51,7 @@ CREATE TABLE public."Products"(
     "price" DECIMAL(10,2) NOT NULL,
     "stock_quantity" INT NOT NULL,
     "sku" VARCHAR(40) NOT NULL UNIQUE,
-    "on_sale" BOOLEAN DEFAULT TRUE, -- extra column to specify if product is available to purchase
+    "on_sale" BOOLEAN DEFAULT TRUE,
     "image_url" VARCHAR(255),
     "weight" DECIMAL(5,3),
 	"is_active" BOOLEAN DEFAULT TRUE,
@@ -123,7 +123,7 @@ CREATE TABLE public."Orders"(
 );
 
 -- creating ordered items table
-CREATE TABLE public."OrderedItems"(
+CREATE TABLE public."OrderItems"(
     "order_item_id" UUID PRIMARY KEY,
     "order_id" UUID NOT NULL,
     "product_id" UUID NOT NULL,
@@ -150,8 +150,8 @@ CREATE TABLE public."OrderedItems"(
 CREATE TABLE public."PaymentMethods"(
     "payment_method_id" UUID PRIMARY KEY,
     "name" VARCHAR(60) NOT NULL UNIQUE,
-    "carrier" VARCHAR(60) NOT NULL, -- extra info about payment carrier
-    "in_use" BOOLEAN DEFAULT TRUE   -- extra info if payment method is available to use
+    "carrier" VARCHAR(60) NOT NULL,
+    "in_use" BOOLEAN DEFAULT TRUE
 );
 
 -- creating payments table
@@ -183,7 +183,7 @@ CREATE TABLE public."Payments"(
 CREATE TABLE public."ShipmentCarriers"(
     "shipping_carrier_id" UUID PRIMARY KEY,
     "name" VARCHAR(60) NOT NULL UNIQUE,
-    "in_use" BOOLEAN DEFAULT TRUE   -- extra info if shipment carrier is available to use
+    "in_use" BOOLEAN DEFAULT TRUE
 );
 
 -- creating shipments table
