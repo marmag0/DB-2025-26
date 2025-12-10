@@ -8,9 +8,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=ecommerce_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - timescaledb_data:/var/lib/postgresql/data
+      - ./migrations/init:/docker-entrypoint-initdb.d
     restart: always
 
 volumes:

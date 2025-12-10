@@ -1,4 +1,6 @@
 -- migrate:up
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- 1. Categories
 WITH new_category AS (
     INSERT INTO public."Categories" (category_id, name, description)
@@ -8,7 +10,7 @@ WITH new_category AS (
 -- 2. Customer
 new_customer AS (
     INSERT INTO public."Customers" (customer_id, username, password_hash, first_name, last_name, email)
-    VALUES (gen_random_uuid(), 'jkowal', crypt('zaq1@WSX', gen_salt('bf')), , 'Jan', 'Kowalski', 'jan.kowalsku@gmail.com')
+    VALUES (gen_random_uuid(), 'jkowal', crypt('zaq1@WSX', gen_salt('bf')), 'Jan', 'Kowalski', 'jan.kowalsku@gmail.com')
     RETURNING customer_id
 ),
 -- 3. Adress
@@ -41,7 +43,7 @@ new_order AS (
 ),
 -- 7. OrderItem
 new_order_item AS (
-    INSERT INTO public."OrderedItems" (order_item_id, order_id, product_id, quantity, unit_price)
+    INSERT INTO public."OrderItems" (order_item_id, order_id, product_id, quantity, unit_price)
     SELECT gen_random_uuid(), (SELECT order_id FROM new_order), (SELECT product_id FROM new_product), 1, (SELECT price FROM new_product)
     RETURNING order_item_id
 ),
@@ -65,8 +67,8 @@ new_carrier AS (
 ),
 -- 11. Shipment
 new_shipment AS (
-    INSERT INTO public."Shipments" (shipment_id, order_id, shipping_carrier_id, tracking_number, status)
-    SELECT gen_random_uuid(), (SELECT order_id FROM new_order), (SELECT shipping_carrier_id FROM new_carrier), 'InPost-1234567890', 'pending'
+    INSERT INTO public."Shipments" (shipment_id, order_id, shipping_carrier_id, tracking_number, shipment_date, status)
+    SELECT gen_random_uuid(), (SELECT order_id FROM new_order), (SELECT shipping_carrier_id FROM new_carrier), 'InPost-1234567890', NOW(), 'pending'
     RETURNING shipment_id
 )
 -- 12. Review
@@ -77,9 +79,9 @@ FROM new_customer CROSS JOIN new_product;
 
 -- migrate:down
 
-DELETE FROM public."Reviews" WHERE comment = 'Amazing phone!';
-DELETE FROM public."Shipments" WHERE tracking_number = 'InPost-1234567890';
-DELETE FROM public."ShipmentCarriers" WHERE name = 'InPost';
-DELETE FROM public."Payments" WHERE amount = 1014.99;
-DELETE FROM public."PaymentMethods" WHERE name = 'Credit Card';
-DELETE FROM public."OrderedItems"
+-- DELETE FROM public."Reviews" WHERE comment = 'Amazing phone!';
+-- DELETE FROM public."Shipments" WHERE tracking_number = 'InPost-1234567890';
+-- DELETE FROM public."ShipmentCarriers" WHERE name = 'InPost';
+-- DELETE FROM public."Payments" WHERE amount = 1014.99;
+-- DELETE FROM public."PaymentMethods" WHERE name = 'Credit Card';
+-- DELETE FROM public."OrderItems" WHERE quantity = 1;
