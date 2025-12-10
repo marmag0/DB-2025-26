@@ -1,4 +1,4 @@
--- migrate:up
+-- Example Data Insert Script (Standalone)
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- 1. Categories
@@ -77,7 +77,7 @@ SELECT gen_random_uuid(), (SELECT customer_id FROM new_customer), (SELECT produc
 FROM new_customer CROSS JOIN new_product;
 
 
--- migrate:down
+-- Clean up (Execute manually to revert):
 
 -- DELETE FROM public."Reviews" WHERE comment = 'Amazing phone!';
 -- DELETE FROM public."Shipments" WHERE tracking_number = 'InPost-1234567890';
