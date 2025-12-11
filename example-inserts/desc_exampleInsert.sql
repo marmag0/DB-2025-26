@@ -1,4 +1,4 @@
--- Example Data Insert Script (Standalone)
+-- Example Data Insert Script
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- 1. Categories
@@ -76,12 +76,3 @@ INSERT INTO public."Reviews" (review_id, customer_id, product_id, rating, commen
 SELECT gen_random_uuid(), (SELECT customer_id FROM new_customer), (SELECT product_id FROM new_product), 5, 'Amazing phone!', NOW()
 FROM new_customer CROSS JOIN new_product;
 
-
--- Clean up (Execute manually to revert):
-
--- DELETE FROM public."Reviews" WHERE comment = 'Amazing phone!';
--- DELETE FROM public."Shipments" WHERE tracking_number = 'InPost-1234567890';
--- DELETE FROM public."ShipmentCarriers" WHERE name = 'InPost';
--- DELETE FROM public."Payments" WHERE amount = 1014.99;
--- DELETE FROM public."PaymentMethods" WHERE name = 'Credit Card';
--- DELETE FROM public."OrderItems" WHERE quantity = 1;
