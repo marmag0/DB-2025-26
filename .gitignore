@@ -1,1 +1,38 @@
-**/.DS_Store
+### OS Specific Files ###
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+### Database & Environment ###
+# Data and logs from database
+*.sql.gz
+*.sqlite
+*.db
+dump.sql
+logs/
+*.log
+
+# Configuration files with sensitive data
+.env
+.env.local
+config/database.yml.local
+
+### IDE & Editors ###
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+
+# IntelliJ / PyCharm / WebStorm
+.idea/
+
+### Backups & Temp ###
+*.bak
+*.tmp
+*.swp
