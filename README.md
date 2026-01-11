@@ -30,16 +30,28 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
 - more about Dbmate `->` [GitHub](https://github.com/amacneil/dbmate)
 
 
+### Works on mine device... but also works on yours! 💻
+
+- **containerized environment** - the entire stack is orchestrated using `Docker Compose`, ensuring environment parity across different operating systems.
+- **automated orchestration** - healthchecks are implemented to guarantee that the dbmate migrator only triggers once the database is fully ready to accept connections.
+- **persistent storage** - utilizes named volumes to ensure data persists across container restarts and updates.
+
+
+### Database Management & Cloud ☁️
+
+The database won't just sit isolated in a container - we are **exposing access via a simple management panel (webapp)**. The entire setup will be hosted on **Google Cloud**, and to avoid exposing the database "butt-naked" to the internet, we’ll use a **Cloudflare Tunnel**. This ensures traffic travels through a secure, encrypted channel directly to our infrastructure, giving us a safe way to manage our tables from anywhere on Earth.
+
+To keep everything secure, access to the panel is restricted via **Google OAuth 2.0**. Only whitelisted Google accounts will be granted entry, ensuring that our **data remains private while providing us with a seamless and safe way to manage tables from anywhere on Earth**.
+
+
 ### Repository Structure 📂
 
 Here's the repository structure - feel free to explore!
 Each directory contains a separate `README.md` file, which explains in detail the purpose of the directory and the functionalities available inside it.
 
 - [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations)
-    - [content](https://github.com/marmag0/DB-2025-26/tree/main/migrations/content) 
-    - [init](https://github.com/marmag0/DB-2025-26/tree/main/migrations/init)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
-- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/example-inserts) 
+- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/example-data) 
 
 
 ### Authors 👨‍🎓
