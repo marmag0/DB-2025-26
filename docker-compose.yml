@@ -1,18 +1,55 @@
-version: '3'
+# docker compose file to set up a PostgreSQL database with dbmate for migrations
+
 services:
-  timescaledb:
-    image: timescale/timescaledb:latest-pg14
-    container_name: timescaledb
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=ecommerce_db
-    ports:
-      - "5433:5432"
-    volumes:
-      - timescaledb_data:/var/lib/postgresql/data
-      - ./migrations/init:/docker-entrypoint-initdb.d
+  
+  # ==== PostgreSQL database service ==== #
+  db:
+    image: postgres:15-alpine
+    container_name: db
     restart: always
+    stop_grace_period: 1m
+    # normally we will use .env in production 
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+  # ==== dbmate service for database migrations ==== #
+  db_migrator:
+    image: amacneil/dbmate:latest
+    container_name: db_migrator
+    environment:
+      # Database connection string/URL
+      DATABASE_URL: "postgres://admin:password@db:5432/postgres?sslmode=disable"
+      DBMATE_MIGRATIONS_DIR: "/migrations"
+    volumes:
+      - ./migrations:/migrations
+    # Run dbmate to apply migrations on startup
+    command: ["up"]
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  # ==== webapp backend service ==== #
+
+  #
+
+  # ==== webapp frontend service ==== #
+
+  #
+
+  # ==== cloudflare tunnel service ==== #
+  
+  #
 
 volumes:
-  timescaledb_data:
+  db_data:
