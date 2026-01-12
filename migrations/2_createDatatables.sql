@@ -24,7 +24,7 @@ CREATE TABLE public.addresses(
     customer_id UUID NOT NULL
         REFERENCES public.customers(customer_id) 
         ON UPDATE CASCADE
-        ON DELETE CASCADE, -- if user is deleted we don't need to retain their addresses
+        ON DELETE SET NULL, -- if user is deleted we want to retain their addresses for analysis and etc.
     city VARCHAR(100) NOT NULL,
     street VARCHAR(100) NOT NULL,
     state_province VARCHAR(60),
