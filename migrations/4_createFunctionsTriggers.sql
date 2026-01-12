@@ -18,6 +18,27 @@ BEFORE UPDATE ON public.products
 FOR EACH ROW
 EXECUTE FUNCTION public.update_updated_at();
 
+-- -- -- -- -- -- -- --
+
+-- trigger to change quantity in stock after inserting order items
+CREATE OR REPLACE FUNCTION public.decrease_stock_on_order_item_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE public.products
+    SET stock_quantity = stock_quantity - NEW.quantity
+    WHERE product_id = NEW.product_id;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_decrease_stock_after_insert
+AFTER INSERT ON public.order_items
+FOR EACH ROW
+EXECUTE FUNCTION public.decrease_stock_on_order_item_insert();
+
+-- -- -- -- -- -- -- --
+
 -- trigger to check if stock is sufficient before inserting order items
 CREATE OR REPLACE FUNCTION public.check_stock_before_insert()
 RETURNS TRIGGER AS $$
@@ -33,6 +54,8 @@ CREATE TRIGGER trg_check_stock_before_insert
 BEFORE INSERT ON public.order_items
 FOR EACH ROW
 EXECUTE FUNCTION public.check_stock_before_insert();
+
+-- -- -- -- -- -- -- --
 
 -- trigger to check if deleted customer has active orders
 CREATE OR REPLACE FUNCTION public.check_active_orders_before_customer_delete()
@@ -54,6 +77,7 @@ BEFORE DELETE ON public.customers
 FOR EACH ROW
 EXECUTE FUNCTION public.check_active_orders_before_customer_delete();
 
+-- -- -- -- -- -- -- --
 
 -- trigger prevent deleting address if it is used in active orders
 CREATE OR REPLACE FUNCTION public.check_active_orders_before_address_delete()
@@ -81,6 +105,9 @@ EXECUTE FUNCTION public.check_active_orders_before_address_delete();
 
 DROP TRIGGER IF EXISTS prevent_address_delete_with_active_orders ON public.addresses;
 DROP FUNCTION IF EXISTS public.check_active_orders_before_address_delete();
+
+DROP TRIGGER IF EXISTS trg_decrease_stock_after_insert ON public.order_items;
+DROP FUNCTION IF EXISTS public.decrease_stock_on_order_item_insert();
 
 DROP TRIGGER IF EXISTS prevent_customer_delete_with_active_orders ON public.customers;
 DROP FUNCTION IF EXISTS public.check_active_orders_before_customer_delete();
