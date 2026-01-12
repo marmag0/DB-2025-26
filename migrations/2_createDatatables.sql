@@ -52,7 +52,7 @@ CREATE TABLE public.products(
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
     stock_quantity INT NOT NULL,
-    sku VARCHAR(40) NOT NULL UNIQUE,
+    sku TEXT NOT NULL UNIQUE,
     image_url VARCHAR(255),
     weight DECIMAL(5,3),
     is_active BOOLEAN DEFAULT TRUE,
