@@ -4,30 +4,33 @@
 
 -- migrate:up
 
-CREATE ROLE "Role.Owner" WITH
-	LOGIN
-	SUPERUSER
-	CONNECTION LIMIT -1
-	PASSWORD 'SuperStrongPassword';
+CREATE ROLE role_owner WITH
+    LOGIN
+    SUPERUSER
+    CONNECTION LIMIT -1
+    PASSWORD 'SuperStrongPassword';
 
-CREATE ROLE "Role.Developer" WITH
+CREATE ROLE role_developer WITH
     LOGIN
     NOSUPERUSER
     NOCREATEROLE
     NOREPLICATION
     NOINHERIT
     CONNECTION LIMIT -1
-    PASSWORD 'strongPassword';
+    PASSWORD 'StrongPassword';
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "Role.Developer";
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO role_developer;
 
 -- * -- * -- * -- * --
 
 -- migrate:down
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public 
-REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLES FROM "Role.Developer";
+REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLES FROM role_developer;
 
-DROP ROLE IF EXISTS "Role.Developer";
-DROP ROLE IF EXISTS "Role.Owner";
+DROP OWNED BY role_developer;
+DROP OWNED BY role_owner;
+
+DROP ROLE IF EXISTS role_developer;
+DROP ROLE IF EXISTS role_owner;

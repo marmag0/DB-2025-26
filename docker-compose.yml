@@ -10,6 +10,7 @@ services:
     stop_grace_period: 1m
     # normally we will use .env in production 
     environment:
+      TZ: Europe/Warsaw
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
