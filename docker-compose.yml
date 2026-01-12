@@ -39,6 +39,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  # ==== pgTAP service for database testing ==== #
+
+  #
   
   # ==== webapp backend service ==== #
 

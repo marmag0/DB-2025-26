@@ -30,6 +30,16 @@ To address this, we use `Dbmate`, a **lightweight** and **accessible** migration
 - more about Dbmate `->` [GitHub](https://github.com/amacneil/dbmate)
 
 
+### Automated tests - pgTAP 🧪
+
+To ensure the reliability and correctness of our database, we use [pgTAP](https://pgtap.org/), a powerful testing framework for PostgreSQL. It allows us to write unit tests for database objects such as tables, views, functions, and triggers, ensuring that every component behaves as expected.
+
+**Why pgTAP?**
+- **declarative syntax**: write tests in a human-readable format, making it easy to understand and maintain.
+- **integration with CI/CD**: seamlessly integrates with continuous integration pipelines to automate test execution.
+- **comprehensive coverage**: supports testing for schema integrity, data constraints, and custom business logic.
+
+
 ### Works on mine device... but also works on yours! 💻
 
 - **containerized environment** - the entire stack is orchestrated using `Docker Compose`, ensuring environment parity across different operating systems.
@@ -49,9 +59,10 @@ To keep everything secure, access to the panel is restricted via **Google OAuth 
 Here's the repository structure - feel free to explore!
 Each directory contains a separate `README.md` file, which explains in detail the purpose of the directory and the functionalities available inside it.
 
+- [example-data](https://github.com/marmag0/DB-2025-26/tree/main/example-data) 
 - [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
-- [example-inserts](https://github.com/marmag0/DB-2025-26/tree/main/example-data) 
+- [tests](https://github.com/marmag0/DB-2025-26/tree/main/tests)
 
 
 ### Authors 👨‍🎓
