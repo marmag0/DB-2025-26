@@ -39,6 +39,45 @@ EXECUTE FUNCTION public.decrease_stock_on_order_item_insert();
 
 -- -- -- -- -- -- -- --
 
+-- trigger to restore stock when an order item is deleted
+CREATE OR REPLACE FUNCTION public.restore_stock_on_order_item_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE public.products
+    SET stock_quantity = stock_quantity + OLD.quantity
+    WHERE product_id = OLD.product_id;
+    
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_restore_stock_after_delete
+AFTER DELETE ON public.order_items
+FOR EACH ROW
+EXECUTE FUNCTION public.restore_stock_on_order_item_delete();
+
+-- -- -- -- -- -- -- --
+
+-- trigger to delete order items when an order is canceled
+CREATE OR REPLACE FUNCTION public.handle_order_cancellation()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.status = 'canceled' AND OLD.status != 'canceled' THEN
+        DELETE FROM public.order_items
+        WHERE order_id = NEW.order_id;
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_delete_items_on_cancel
+AFTER UPDATE ON public.orders
+FOR EACH ROW
+EXECUTE FUNCTION public.handle_order_cancellation();
+
+-- -- -- -- -- -- -- --
+
 -- trigger to check if stock is sufficient before inserting order items
 CREATE OR REPLACE FUNCTION public.check_stock_before_insert()
 RETURNS TRIGGER AS $$
@@ -108,6 +147,12 @@ DROP FUNCTION IF EXISTS public.check_active_orders_before_address_delete();
 
 DROP TRIGGER IF EXISTS trg_decrease_stock_after_insert ON public.order_items;
 DROP FUNCTION IF EXISTS public.decrease_stock_on_order_item_insert();
+
+DROP TRIGGER IF EXISTS trg_delete_items_on_cancel ON public.orders;
+DROP FUNCTION IF EXISTS public.handle_order_cancellation();
+
+DROP TRIGGER IF EXISTS trg_restore_stock_after_delete ON public.order_items;
+DROP FUNCTION IF EXISTS public.restore_stock_on_order_item_delete();
 
 DROP TRIGGER IF EXISTS prevent_customer_delete_with_active_orders ON public.customers;
 DROP FUNCTION IF EXISTS public.check_active_orders_before_customer_delete();
