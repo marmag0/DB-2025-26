@@ -4,7 +4,7 @@ services:
   
   # ==== PostgreSQL database service ==== #
   db:
-    image: timescale/timescaledb:latest-pg15
+    build: .
     container_name: db
     restart: always
     stop_grace_period: 1m
@@ -34,15 +34,28 @@ services:
       DBMATE_MIGRATIONS_DIR: "/migrations"
     volumes:
       - ./migrations:/migrations
-    # Run dbmate to apply migrations on startup
-    command: ["up"]
     depends_on:
       db:
         condition: service_healthy
+    # Run dbmate to apply migrations on startup
+    command: ["up"]
 
   # ==== pgTAP service for database testing ==== #
-
-  #
+  tests:
+    build: .
+    container_name: db_tests
+    environment:
+      PGPASSWORD: password
+      PGUSER: admin
+      PGHOST: db
+      PGDATABASE: postgres
+    volumes:
+      - ./tests:/tests
+    depends_on:
+      db_migrator:
+        condition: service_completed_successfully
+    command: >
+      bash -c "psql -c 'CREATE EXTENSION IF NOT EXISTS pgtap;' && pg_prove -v /tests/*.sql"
   
   # ==== webapp backend service ==== #
 
