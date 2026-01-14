@@ -64,6 +64,10 @@ BEFORE DELETE ON public.addresses
 FOR EACH ROW
 EXECUTE FUNCTION public.check_active_orders_before_address_delete();
 
+-- -- -- -- -- -- -- --
+
+
+
 -- * -- * -- * -- * --
 
 -- migrate:down

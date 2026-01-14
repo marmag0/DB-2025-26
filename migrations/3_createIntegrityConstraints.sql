@@ -31,7 +31,7 @@ ADD CONSTRAINT valid_discount_dates CHECK (end_date > start_date);
 -- constraints for public.orders
 ALTER TABLE public.orders
 -- status must be one of the predefined values
-ADD CONSTRAINT valid_order_status CHECK (status IN ('pending', 'shipped', 'delivered', 'canceled'));
+ADD CONSTRAINT valid_order_status CHECK (status IN ('pending', 'paid', 'shipped', 'delivered', 'canceled'));
 
 
 -- constraints for public.order_items

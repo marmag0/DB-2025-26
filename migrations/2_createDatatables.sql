@@ -91,11 +91,11 @@ CREATE TABLE public.orders(
         REFERENCES public.customers(customer_id) 
         ON DELETE SET NULL,
     order_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    products_cost DECIMAL(10,2) NOT NULL,
-    shipping_cost DECIMAL(10,2) NOT NULL,
-    status TEXT NOT NULL
+    products_cost DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    shipping_cost DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    status TEXT NOT NULL DEFAULT 'pending' -- 'pending', 'paid', 'shipped', 'delivered', 'canceled'
 );
-
+ 
 -- creating ordered items table
 CREATE TABLE public.order_items(
     order_item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -108,7 +108,7 @@ CREATE TABLE public.order_items(
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
     quantity INT NOT NULL,
-    unit_price DECIMAL(10,2) NOT NULL
+    unit_price DECIMAL(10,2) NOT NULL DEFAULT 0.00
 );
 
 -- creating payment methods table
@@ -120,6 +120,11 @@ CREATE TABLE public.payment_methods(
 );
 
 -- creating payments table
+-- logic:
+-- clicking payment link creates a payment with 'pending' status
+-- once payment is confirmed by external gateway, status is updated to 'completed'
+-- if payment fails, status is updated to 'failed'
+-- if customer requests refund and process is completed, status is updated to 'refunded'
 CREATE TABLE public.payments(
     payment_id UUID DEFAULT gen_random_uuid(),
     order_id UUID NOT NULL
@@ -129,7 +134,7 @@ CREATE TABLE public.payments(
     amount DECIMAL(10,2) NOT NULL,
     payment_date TIMESTAMPTZ NOT NULL,
     payment_method_id UUID NOT NULL,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL, -- 'pending', 'completed', 'failed', 'refunded'
 
     PRIMARY KEY (payment_id, payment_date)
 );
@@ -145,6 +150,14 @@ CREATE TABLE public.shipment_carriers(
 );
 
 -- creating shipments table
+-- logic:
+-- when and orider is created, shipment record is created with 'pending' status
+-- when an order is shipped, a shipment record is created with 'shipped' status
+-- when shipment is in transit, status is updated to 'in_transit'
+-- when shipment is delivered, status is updated to 'delivered'
+-- if shipment is cancelled, status is updated to 'cancelled'
+-- if shipment is returned by customer or delivery fails, status is updated to 'returning'
+-- if shipment is returned, status is updated to 'returning' and then to 'returned'
 CREATE TABLE public.shipments(
     shipment_id UUID NOT NULL DEFAULT gen_random_uuid(),
     order_id UUID NOT NULL
@@ -156,9 +169,10 @@ CREATE TABLE public.shipments(
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
     tracking_number TEXT NOT NULL,
-    shipment_date TIMESTAMPTZ NOT NULL,
+    shipment_date TIMESTAMPTZ,
     delivery_date TIMESTAMPTZ,
-    status TEXT NOT NULL,
+    cost DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    status TEXT NOT NULL, -- 'pending', 'shipped', 'in_transit', 'delivered', 'cancelled', 'returning', 'returned'
 
     PRIMARY KEY (shipment_id, shipment_date)
 );
