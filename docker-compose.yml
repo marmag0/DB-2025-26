@@ -41,7 +41,7 @@ services:
     command: ["up"]
 
   # ==== pgTAP service for database testing ==== #
-  tests:
+  db_tests:
     build: .
     container_name: db_tests
     environment:
@@ -57,6 +57,40 @@ services:
     command: >
       bash -c "psql -c 'CREATE EXTENSION IF NOT EXISTS pgtap;' && pg_prove -v /tests/*.sql"
   
+  # ==== seed service to populate the database with initial data ==== #
+  db_seeder:
+    image: timescale/timescaledb:latest-pg15 
+    container_name: db_seeder
+    depends_on:
+      db_tests:
+        condition: service_completed_successfully
+    volumes:
+      - ./seeds:/seeds
+    environment:
+      PGHOST: db
+      PGUSER: admin
+      PGPASSWORD: password
+      PGDATABASE: postgres
+      IS_PROD: "false" # Set to "true" in production environment to skip seeding
+    command: >
+      /bin/sh -c 
+      "
+        if [ \"$$IS_PROD\" = \"false\" ]; then
+          echo 'Development environment detected. Starting seeding...';
+          
+          for file in /seeds/*.sql; do
+            if [ -f \"$$file\" ]; then
+              echo \"Processing $$file...\";
+              psql -f \"$$file\";
+            fi
+          done;
+          
+          echo 'Seeding completed!';
+        else
+          echo 'Production environment detected. Seeding skipped.';
+        fi
+      "
+
   # ==== webapp backend service ==== #
 
   #
