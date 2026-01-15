@@ -173,7 +173,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_update_order_status_on_payment
-AFTER UPDATE ON public.payments
+AFTER INSERT OR UPDATE ON public.payments
 FOR EACH ROW
 EXECUTE FUNCTION public.update_order_status_on_payment();
 
@@ -199,7 +199,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_update_order_status_on_shipment
-AFTER UPDATE ON public.shipments
+AFTER INSERT OR UPDATE ON public.shipments
 FOR EACH ROW
 EXECUTE FUNCTION public.update_order_status_on_shipment();
 

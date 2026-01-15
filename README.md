@@ -78,9 +78,9 @@ To keep everything secure, access to the panel is restricted via **Google OAuth 
 Here's the repository structure - feel free to explore!
 Each directory contains a separate `README.md` file, which explains in detail the purpose of the directory and the functionalities available inside it.
 
-- [example-data](https://github.com/marmag0/DB-2025-26/tree/main/example-data) 
 - [migrations](https://github.com/marmag0/DB-2025-26/tree/main/migrations)
 - [project-plan](https://github.com/marmag0/DB-2025-26/tree/main/project-plan)
+- [seeds](https://github.com/marmag0/DB-2025-26/tree/main/seeds)
 - [tests](https://github.com/marmag0/DB-2025-26/tree/main/tests)
 
 

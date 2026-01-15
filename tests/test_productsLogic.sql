@@ -1,4 +1,4 @@
---
+-- tests for triggers and logic related to products, stock management, and orders
 
 BEGIN;
 SELECT plan(2);
@@ -66,7 +66,7 @@ SELECT results_eq(
     'Canceling order should remove items and restore stock (95 -> 100)'
 );
 
---
+-- cleanup
 
 SELECT * FROM finish();
 ROLLBACK;

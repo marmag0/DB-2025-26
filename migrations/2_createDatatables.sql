@@ -170,7 +170,7 @@ CREATE TABLE public.shipments(
         ON DELETE RESTRICT,
     tracking_number TEXT NOT NULL,
     shipment_date TIMESTAMPTZ,
-    delivery_date TIMESTAMPTZ,
+    delivery_date TIMESTAMPTZ DEFAULT NULL,
     cost DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     status TEXT NOT NULL, -- 'pending', 'shipped', 'in_transit', 'delivered', 'cancelled', 'returning', 'returned'
 
