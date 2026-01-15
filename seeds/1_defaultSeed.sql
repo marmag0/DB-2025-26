@@ -1,4 +1,4 @@
--- seeds/01_seed_data.sql
+-- Seed file to populate the e-commerce database with example data
 
 BEGIN;
 
@@ -11,22 +11,37 @@ TRUNCATE public.reviews, public.shipments, public.payments, public.order_items,
 DO $$
 DECLARE
     -- Variables to hold generated IDs
+
+    -- Customers
     v_cust_jan_id UUID;
     v_cust_anna_id UUID;
+    
+    -- Addresses
     v_addr_jan_id UUID;
     v_addr_anna_id UUID;
     
+    -- Categories
     v_cat_elec_id UUID;
     v_cat_books_id UUID;
+    v_cat_clothes_id UUID;
+    v_cat_home_id UUID;
 
+    -- Products
     v_prod_laptop_id UUID;
     v_prod_mouse_id UUID;
     v_prod_book_id UUID;
+    v_prod_headphones_id UUID;
+    v_prod_jeans_id UUID;
+    v_prod_mug_id UUID;
     
+    -- Shipment Carriers
     v_carrier_dhl_id UUID;
     v_carrier_inpost_id UUID;
+
+    -- Payment Methods
     v_pay_method_card_id UUID;
-    
+
+    -- Orders
     v_order_jan_id UUID;
     v_order_anna_id UUID;
 BEGIN
@@ -36,6 +51,8 @@ BEGIN
     -- =============================================
     INSERT INTO public.categories (name, description) VALUES ('Elektronika', 'Komputery i akcesoria') RETURNING category_id INTO v_cat_elec_id;
     INSERT INTO public.categories (name, description) VALUES ('Książki', 'Literatura techniczna') RETURNING category_id INTO v_cat_books_id;
+    INSERT INTO public.categories (name, description) VALUES ('Odzież', 'Ubrania i dodatki') RETURNING category_id INTO v_cat_clothes_id;
+    INSERT INTO public.categories (name, description) VALUES ('Dom i Ogród', 'Artykuły do domu i ogrodu') RETURNING category_id INTO v_cat_home_id;
 
     INSERT INTO public.shipment_carriers (name) VALUES ('DHL') RETURNING shipping_carrier_id INTO v_carrier_dhl_id;
     INSERT INTO public.shipment_carriers (name) VALUES ('InPost') RETURNING shipping_carrier_id INTO v_carrier_inpost_id;
@@ -57,6 +74,18 @@ BEGIN
     INSERT INTO public.products (name, category_id, price, stock_quantity, sku) 
     VALUES ('Czysty Kod', v_cat_books_id, 50.00, 100, 'BOOK-001') 
     RETURNING product_id INTO v_prod_book_id;
+
+    INSERT INTO public.products (name, category_id, price, stock_quantity, sku)
+    VALUES ('Słuchawki Bezprzewodowe', v_cat_elec_id, 300.00, 30, 'HEAD-001')
+    RETURNING product_id INTO v_prod_headphones_id;
+
+    INSERT INTO public.products (name, category_id, price, stock_quantity, sku)
+    VALUES ('Jeansy Męskie', v_cat_clothes_id, 150.00, 40, 'JEAN-001')
+    RETURNING product_id INTO v_prod_jeans_id;
+
+    INSERT INTO public.products (name, category_id, price, stock_quantity, sku)
+    VALUES ('Kubek Ceramiczny', v_cat_home_id, 30.00, 80, 'MUG-001')
+    RETURNING product_id INTO v_prod_mug_id;
 
     -- =============================================
     -- 3. Customers and Addresses
