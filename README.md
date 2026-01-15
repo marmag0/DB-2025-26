@@ -1,5 +1,24 @@
 # DB-2025-26
 
+## HOW TO
+
+`->` navigate to root
+`->` start database (migration and tests will run automatically)
+`->` first time:
+```
+docker compose up --build
+```
+`->` another attempts and restarts:
+```
+docker compose down
+docker compose up
+```
+`->` access psql CLI
+```
+docker compose exec db psql -U admin -d postgres
+```
+
+
 ## Welcome to our project!
 
 ### Topic and Purpose 📚
