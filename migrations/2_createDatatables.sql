@@ -132,7 +132,7 @@ CREATE TABLE public.payments(
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     amount DECIMAL(10,2) NOT NULL,
-    payment_date TIMESTAMPTZ NOT NULL,
+    payment_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     payment_method_id UUID NOT NULL,
     status TEXT NOT NULL, -- 'pending', 'completed', 'failed', 'refunded'
 
