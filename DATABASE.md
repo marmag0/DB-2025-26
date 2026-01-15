@@ -10,6 +10,20 @@ This document describes the database schema, roles, and automation logic for the
 
 The database uses **PostgreSQL 15+** with the **TimescaleDB** extension for time-series data (payments, shipments). Schema migrations are managed via **dbmate**.
 
+## Technologies & Implemented Features
+
+### 1. dbmate (Schema Migration)
+*   **Role**: Manages database schema changes (DDL) and version control.
+*   **Implementation**:
+    *   **Migrations**: All tables, views, and functions are defined in SQL files within the `migrations/` directory.
+    *   **Consistency**: Ensures the database schema is identical across all environments (Dev, Test, Prod) by tracking applied migrations in the `schema_migrations` table.
+    *   **Hybrid Approach**: We use `dbmate` for structural changes, while `pgTAP` (separate tool) validates that these changes work as expected.
+
+### 2. TimescaleDB (Time-Series Optimization)
+*   **Role**: Extension optimizing PostgreSQL for high-volume time-series data.
+*   **Implementation**:
+    *   **Hypertables**: The `payments` and `shipments` tables are converted to **hypertables**. This automatically partitions data by time (`payment_date`, `shipment_date`), significantly improving query performance for historical data analysis (e.g., "monthly revenue", "delivery times").
+
 ## Roles
 
 | Role | Permissions | Description |
