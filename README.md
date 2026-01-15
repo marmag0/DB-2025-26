@@ -4,11 +4,11 @@
 
 `->` navigate to root
 `->` start database (migration and tests will run automatically)
-`->` first time:
+`->` **first** time:
 ```
 docker compose up --build
 ```
-`->` another attempts and restarts:
+`->` **another attempts** and **restarts**:
 ```
 docker compose down
 docker compose up
