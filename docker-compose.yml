@@ -1,18 +1,107 @@
-version: '3'
+# docker compose file to set up a PostgreSQL database with dbmate for migrations
+
 services:
-  timescaledb:
-    image: timescale/timescaledb:latest-pg14
-    container_name: timescaledb
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=ecommerce_db
-    ports:
-      - "5433:5432"
-    volumes:
-      - timescaledb_data:/var/lib/postgresql/data
-      - ./migrations/init:/docker-entrypoint-initdb.d
+  
+  # ==== PostgreSQL database service ==== #
+  db:
+    build: .
+    container_name: db
     restart: always
+    stop_grace_period: 1m
+    # normally we will use .env in production 
+    environment:
+      TZ: Europe/Warsaw
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+  # ==== dbmate service for database migrations ==== #
+  db_migrator:
+    image: amacneil/dbmate:latest
+    container_name: db_migrator
+    environment:
+      # Database connection string/URL
+      DATABASE_URL: "postgres://admin:password@db:5432/postgres?sslmode=disable"
+      DBMATE_MIGRATIONS_DIR: "/migrations"
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      db:
+        condition: service_healthy
+    # Run dbmate to apply migrations on startup
+    command: ["up"]
+
+  # ==== pgTAP service for database testing ==== #
+  db_tests:
+    build: .
+    container_name: db_tests
+    environment:
+      PGPASSWORD: password
+      PGUSER: admin
+      PGHOST: db
+      PGDATABASE: postgres
+    volumes:
+      - ./tests:/tests
+    depends_on:
+      db_migrator:
+        condition: service_completed_successfully
+    command: >
+      bash -c "psql -c 'CREATE EXTENSION IF NOT EXISTS pgtap;' && pg_prove -v /tests/*.sql"
+  
+  # ==== seed service to populate the database with initial data ==== #
+  db_seeder:
+    image: timescale/timescaledb:latest-pg15 
+    container_name: db_seeder
+    depends_on:
+      db_tests:
+        condition: service_completed_successfully
+    volumes:
+      - ./seeds:/seeds
+    environment:
+      PGHOST: db
+      PGUSER: admin
+      PGPASSWORD: password
+      PGDATABASE: postgres
+      IS_PROD: "false" # Set to "true" in production environment to skip seeding
+    command: >
+      /bin/sh -c 
+      "
+        if [ \"$$IS_PROD\" = \"false\" ]; then
+          echo 'Development environment detected. Starting seeding...';
+          
+          for file in /seeds/*.sql; do
+            if [ -f \"$$file\" ]; then
+              echo \"Processing $$file...\";
+              psql -f \"$$file\";
+            fi
+          done;
+          
+          echo 'Seeding completed!';
+        else
+          echo 'Production environment detected. Seeding skipped.';
+        fi
+      "
+
+  # ==== webapp backend service ==== #
+
+  #
+
+  # ==== webapp frontend service ==== #
+
+  #
+
+  # ==== cloudflare tunnel service ==== #
+  
+  #
 
 volumes:
-  timescaledb_data:
+  db_data:
