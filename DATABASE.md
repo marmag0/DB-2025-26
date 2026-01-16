@@ -5,6 +5,7 @@ This document describes the database schema, roles, and automation logic for the
 ## Authors: Mateusz Klikuszewski, Mikołaj Mazur
 
 ## Repository: [GitHub](https://github.com/marmag0/DB-2025-26)
+## More details: [README](https://github.com/marmag0/DB-2025-26/blob/main/README.md)
 
 ## Overview
 
@@ -23,6 +24,33 @@ The database uses **PostgreSQL 15+** with the **TimescaleDB** extension for time
 *   **Role**: Extension optimizing PostgreSQL for high-volume time-series data.
 *   **Implementation**:
     *   **Hypertables**: The `payments` and `shipments` tables are converted to **hypertables**. This automatically partitions data by time (`payment_date`, `shipment_date`), significantly improving query performance for historical data analysis (e.g., "monthly revenue", "delivery times").
+
+### 3. Docker Setup
+* **first time running container:**
+```bash
+# Database will be accesible on port 5432 inside container and on localhost 
+docker compose up --build
+```
+* **restart container:**
+```bash
+docker compose down
+docker compose up
+```
+* **restart container with data wpie:**
+```bash
+docker compose down -v
+docker compose up
+```
+* **migrate new changes**
+```bash
+docker compose up
+```
+* **accessing psql CLI**
+```bash
+# Use different credentails if docker-compose.yml uses .env references or other fixed values 
+docker compose exec db psql -U admin -d postgres
+```
+
 
 ## Roles
 

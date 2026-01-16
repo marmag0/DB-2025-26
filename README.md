@@ -2,19 +2,19 @@
 
 ## HOW TO
 
-`->` navigate to root
-`->` start database (migration and tests will run automatically)
-`->` **first** time:
-```
+`->` navigate to **root** of project's directory
+`->` **start database** (migration and tests will run automatically)
+`->` **first time**:
+```bash
 docker compose up --build
 ```
 `->` **another attempts** and **restarts**:
-```
+```bash
 docker compose down
 docker compose up
 ```
-`->` access psql CLI
-```
+`->` **access psql CLI**:
+```bash
 docker compose exec db psql -U admin -d postgres
 ```
 
