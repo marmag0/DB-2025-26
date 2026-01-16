@@ -91,17 +91,5 @@ services:
         fi
       "
 
-  # ==== webapp backend service ==== #
-
-  #
-
-  # ==== webapp frontend service ==== #
-
-  #
-
-  # ==== cloudflare tunnel service ==== #
-  
-  #
-
 volumes:
   db_data:
