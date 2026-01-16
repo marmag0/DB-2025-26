@@ -11,12 +11,13 @@ services:
     # normally we will use .env in production 
     environment:
       TZ: Europe/Warsaw
-      POSTGRES_USER: admin          # ${ADMIN_USER) in .env
+      POSTGRES_USER: admin          # ${ADMIN_USER} in .env
       POSTGRES_PASSWORD: password   # ${ADMIN_PASSWORD} in .env
       POSTGRES_DB: postgres         # ${POSTGRES_DB} in .env
     ports:
       - "5432:5432"
     volumes:
+      # Persist database data -> local:container
       - db_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d postgres"]
@@ -30,9 +31,12 @@ services:
     container_name: db_migrator
     environment:
       # Database connection string/URL
+      # Alternative for .env usage in production:
+      # DATABASE_URL: "$postgres://${ADMIN_USER}:${ADMIN_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable"
       DATABASE_URL: "postgres://admin:password@db:5432/postgres?sslmode=disable"
       DBMATE_MIGRATIONS_DIR: "/migrations"
     volumes:
+      # Mount local migrations directory to container -> local:container
       - ./migrations:/migrations
     depends_on:
       db:
@@ -50,6 +54,7 @@ services:
       PGHOST: db
       PGDATABASE: postgres
     volumes:
+      # Mount local tests directory to container -> local:container
       - ./tests:/tests
     depends_on:
       db_migrator:
@@ -65,12 +70,15 @@ services:
       db_tests:
         condition: service_completed_successfully
     volumes:
+      # Mount local seeds directory to container -> local:container
       - ./seeds:/seeds
     environment:
       PGHOST: db
       PGUSER: admin
       PGPASSWORD: password
       PGDATABASE: postgres
+      # Alternative for .env usage in production:
+      # IS_PROD: "${IS_PROD}"
       IS_PROD: "false" # Set to "true" in production environment to skip seeding
     command: >
       /bin/sh -c 
