@@ -11,9 +11,9 @@ services:
     # normally we will use .env in production 
     environment:
       TZ: Europe/Warsaw
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
+      POSTGRES_USER: admin          # ${ADMIN_USER) in .env
+      POSTGRES_PASSWORD: password   # ${ADMIN_PASSWORD} in .env
+      POSTGRES_DB: postgres         # ${POSTGRES_DB} in .env
     ports:
       - "5432:5432"
     volumes:
